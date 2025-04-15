@@ -6,6 +6,9 @@ import { NextRequest } from 'next/server';
 // Initialize Prisma client in a way that works with serverless environments
 const prisma = new PrismaClient();
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(request: NextRequest) {
   try {
     const { userId } = getAuth(request);
