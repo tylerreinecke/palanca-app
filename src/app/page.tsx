@@ -1,4 +1,6 @@
-import Image from "next/image";
+'use client';
+
+import { SignUpButton } from "@clerk/nextjs";
 
 export default function Home() {
   return (
@@ -15,13 +17,12 @@ export default function Home() {
                 Transform heartfelt letters into beautiful, bound books. Create lasting memories that celebrate the connections that matter most.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a
-                  href="#"
-                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Get started
-                </a>
-                <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+                <SignUpButton mode="modal">
+                  <button className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Get started
+                  </button>
+                </SignUpButton>
+                <a href="#learn-more" className="text-sm font-semibold leading-6 text-gray-900">
                   Learn more <span aria-hidden="true">→</span>
                 </a>
               </div>
@@ -31,7 +32,7 @@ export default function Home() {
       </div>
 
       {/* Feature Section */}
-      <div className="bg-gray-50 py-24 sm:py-32">
+      <div id="learn-more" className="bg-gray-50 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-indigo-600">Meaningful Gifts</h2>
