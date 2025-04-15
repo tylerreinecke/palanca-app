@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { auth } from '@clerk/nextjs';
-
-// Initialize Prisma client
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // This is a dynamic route handler
 export const dynamic = 'force-dynamic';
@@ -19,9 +16,6 @@ export async function GET() {
         { status: 401 }
       );
     }
-
-    // Ensure database connection
-    await prisma.$connect();
 
     const users = await prisma.user.findMany({
       select: {
@@ -39,8 +33,5 @@ export async function GET() {
       { error: 'Internal Server Error' },
       { status: 500 }
     );
-  } finally {
-    // Always disconnect from the database
-    await prisma.$disconnect();
   }
 } 
