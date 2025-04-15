@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { getAuth } from '@clerk/nextjs/server';
-import { NextRequest } from 'next/server';
+import { auth } from '@clerk/nextjs';
 
-// Initialize Prisma client in a way that works with serverless environments
+// Initialize Prisma client
 const prisma = new PrismaClient();
 
+// This is a dynamic route handler
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    const { userId } = getAuth(request);
+    const { userId } = auth();
     
     if (!userId) {
       return NextResponse.json(
