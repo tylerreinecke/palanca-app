@@ -6,13 +6,44 @@ Transform heartfelt letters into beautiful, bound books. Create lasting memories
 
 Palanca represents offerings, prayers, and encouragement given on behalf of others. This web application helps collect and preserve these meaningful messages in beautifully bound books.
 
-## Development
+## Tech Stack
 
-This project is built with:
-- Next.js
-- TypeScript
-- Tailwind CSS
-- Deployed on Vercel
+- **Next.js 14** - React framework for server-rendered applications
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Clerk** - Authentication and user management
+- **Prisma** - Type-safe database ORM
+- **PostgreSQL** - Database
+- **Vercel** - Deployment platform
+
+## Development Setup
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- PostgreSQL database
+- Clerk account (for authentication)
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```env
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/palanca"
+
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publishable_key
+CLERK_SECRET_KEY=your_secret_key
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+
+# Webhook Secret (for Clerk webhooks)
+CLERK_WEBHOOK_SECRET=your_webhook_secret
+```
 
 ### Getting Started
 
@@ -27,14 +58,105 @@ cd palanca-app
 npm install
 ```
 
-3. Run the development server:
+3. Set up the database:
+```bash
+# Generate Prisma client
+npx prisma generate
+
+# Run database migrations
+npx prisma migrate dev
+```
+
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
+
+```
+src/
+├── app/                    # Next.js app directory
+│   ├── api/               # API routes
+│   ├── auth/              # Authentication pages
+│   ├── dashboard/         # Dashboard pages
+│   └── layout.tsx         # Root layout
+├── components/            # Reusable components
+├── lib/                   # Utility functions
+├── hooks/                 # Custom React hooks
+├── styles/                # Global styles
+├── types/                 # TypeScript type definitions
+└── utils/                 # Helper functions
+```
+
+## Authentication
+
+The application uses Clerk for authentication. Key features:
+- Protected routes using middleware
+- User management
+- Social login options
+- Session management
+
+## Database
+
+The application uses Prisma with PostgreSQL. Key models:
+- User
+- Project
+- Letter
+- Collection
+
+To view the database schema, check `prisma/schema.prisma`.
+
+## API Routes
+
+The application exposes several API endpoints:
+- `/api/users` - User management
+- `/api/projects` - Project operations
+- `/api/letters` - Letter management
+- `/api/collections` - Collection operations
+
+## Development Workflow
+
+1. Create a new branch for your feature:
+```bash
+git checkout -b feature/your-feature-name
+```
+
+2. Make your changes and commit them:
+```bash
+git add .
+git commit -m "Description of your changes"
+```
+
+3. Push your changes and create a pull request:
+```bash
+git push origin feature/your-feature-name
+```
+
+## Testing
+
+Run the test suite:
+```bash
+npm test
+```
+
+## Deployment
+
+The application is deployed on Vercel. The deployment process is automated through GitHub integration.
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Learn More
 
