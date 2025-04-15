@@ -31,7 +31,7 @@ Create a `.env.local` file in the root directory with the following variables:
 
 ```env
 # Database
-DATABASE_URL="postgresql://user:password@localhost:5432/palanca"
+DATABASE_URL="your_database_connection_url"
 
 # Clerk Authentication
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publishable_key
@@ -63,7 +63,7 @@ npm install
 # Generate Prisma client
 npx prisma generate
 
-# Run database migrations
+# Run database migrations - ONLY NEEDED IF MAKING CHANGES TO DATABASE SCHEMA
 npx prisma migrate dev
 ```
 
