@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs';
 import { prisma } from '@/lib/prisma';
 
-// Explicitly configure the route
-export const runtime = 'edge';
+// Configure the route for Node.js runtime
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
