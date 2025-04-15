@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - represents all types of users
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  phoneNumber   String?   // Optional phone number field
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // User can be an organizer of multiple projects
+  organizedProjects Project[] @relation("ProjectOrganizers")
+  
+  // User can be a contributor to multiple projects
+  contributedLetters Letter[]
+  
+  // User can be a recipient of multiple projects
+  receivedProjects Project[] @relation("ProjectRecipient")
+
+  // Track invitations sent to this user
+  receivedInvitations Invitation[] @relation("InvitationRecipient")
+}
+
+// Project model - represents a Palanca book project
+model Project {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  dueDate     DateTime?
+  status      ProjectStatus @default(COLLECTING)
+  
+  // Project organizers (can have multiple)
+  organizers  User[]    @relation("ProjectOrganizers")
+  
+  // The recipient of the project
+  recipientId String
+  recipient   User      @relation("ProjectRecipient", fields: [recipientId], references: [id])
+  
+  // Letters in this project
+  letters     Letter[]
+  
+  // Invitations for this project
+  invitations Invitation[]
+
+  @@index([recipientId])
+}
+
+// Letter model - represents a letter written by a contributor
+model Letter {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // The project this letter belongs to
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  
+  // The user who wrote the letter
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+
+  @@index([projectId])
+  @@index([authorId])
+}
+
+// Invitation model - tracks invitations to contribute
+model Invitation {
+  id        String   @id @default(cuid())
+  email     String
+  status    InvitationStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // The project this invitation is for
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+  
+  // The user who received the invitation (if they're registered)
+  recipientId String?
+  recipient   User?   @relation("InvitationRecipient", fields: [recipientId], references: [id])
+
+  @@index([projectId])
+  @@index([recipientId])
+}
+
+enum ProjectStatus {
+  COLLECTING  // Still collecting letters
+  REVIEWING   // Organizer reviewing/arranging letters
+  PRINTING    // Sent to printer
+  COMPLETED   // Book delivered
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+} 
