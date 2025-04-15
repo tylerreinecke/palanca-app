@@ -3,22 +3,23 @@ import { PrismaClient } from '@prisma/client';
 import { getAuth } from '@clerk/nextjs/server';
 import { NextRequest } from 'next/server';
 
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: process.env.DATABASE_URL,
-    },
-  },
-});
+// Initialize Prisma client in a way that works with serverless environments
+const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
-  const { userId } = getAuth(request);
-  
-  if (!userId) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
+    const { userId } = getAuth(request);
+    
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Ensure database connection
+    await prisma.$connect();
+
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -30,7 +31,13 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ users });
   } catch (error) {
-    console.error('Error fetching users:', error);
-    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+    console.error('Error in /api/users:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  } finally {
+    // Always disconnect from the database
+    await prisma.$disconnect();
   }
 } 
