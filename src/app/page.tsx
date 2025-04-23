@@ -2,13 +2,15 @@
 
 import { SignUpButton } from "@clerk/nextjs";
 import Image from "next/image";
+import { Typewriter } from "@/components/ui/typewriter";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
       <div className="bg-white">
-        <div className="relative isolate px-6 pt-14 lg:px-8">
+        <div className="relative isolate px-6 py-16 sm:py-24 lg:py-32 lg:px-8 overflow-hidden">
+          {/* Background gradient effect */}
           <div 
             className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" 
             aria-hidden="true"
@@ -19,24 +21,42 @@ export default function Home() {
             />
           </div>
           
-          <div className="mx-auto max-w-5xl py-32 sm:py-48 lg:py-52">
-            <div className="flex justify-center mb-8">
-              <div className="relative w-20 h-28">
-                <Image 
-                  src="/logo.png" 
-                  alt="Palanca Logo" 
-                  fill 
-                  className="object-contain" 
-                  priority
-                />
-              </div>
+          {/* Large debossed logo */}
+          <div className="absolute inset-0 -z-10 flex items-center justify-center">
+            <div className="relative w-4/5 h-4/5 max-w-3xl max-h-full">
+              <Image 
+                src="/logo.png" 
+                alt="Palanca Logo Background" 
+                fill 
+                className="object-contain debossed-image"
+                priority
+              />
             </div>
+          </div>
+          
+          {/* Hero content */}
+          <div className="mx-auto max-w-5xl py-8 sm:py-14 lg:py-20 relative z-10">
             <div className="text-center">
-              <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl">
-                Transform Letters into Beautiful Books
+              <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl drop-shadow-sm leading-tight">
+                <span>Share </span>
+                <Typewriter
+                  text={[
+                    "letters",
+                    "memories", 
+                    "messages",
+                    "lessons",
+                    "stories"
+                  ]}
+                  speed={80}
+                  className="text-blue-600 font-handwritten text-4xl sm:text-6xl drop-shadow-sm leading-tight"
+                  waitTime={2000}
+                  deleteSpeed={60}
+                  cursorChar="|"
+                />
+                <span> with those you love.</span>
               </h1>
-              <p className="mt-6 text-xl leading-8 text-slate-600 max-w-3xl mx-auto">
-                Collect and preserve meaningful messages from loved ones, beautifully bound into lasting keepsakes that celebrate life's most important moments.
+              <p className="mt-6 text-xl leading-8 text-slate-600 max-w-3xl mx-auto backdrop-blur-[2px] backdrop-brightness-105 py-2">
+                Collect and preserve meaningful messages in beautiful, professionally bound books that celebrate the connections and moments that matter most in life.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <SignUpButton mode="modal">
@@ -51,6 +71,7 @@ export default function Home() {
             </div>
           </div>
           
+          {/* Bottom gradient effect */}
           <div 
             className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" 
             aria-hidden="true"
@@ -69,7 +90,7 @@ export default function Home() {
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-blue-600">How It Works</h2>
             <p className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-              Simple Steps to Create Your Keepsake
+              Simple Steps to Create Your Palanca
             </p>
             <p className="mt-6 text-lg leading-8 text-slate-600">
               We help you collect messages from friends and family, and transform them into a beautifully bound book that will be cherished for generations.

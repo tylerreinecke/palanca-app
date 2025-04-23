@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Caveat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import {
   ClerkProvider,
@@ -14,6 +14,7 @@ import Image from "next/image";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
+const caveat = Caveat({ subsets: ["latin"], variable: '--font-caveat' });
 
 export const metadata: Metadata = {
   title: "Palanca - Transform Letters into Beautiful Books",
@@ -28,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`h-full ${inter.variable}`}>
+      <html lang="en" className={`h-full ${inter.variable} ${caveat.variable}`}>
         <body className={`${inter.className} h-full flex flex-col`}>
           <header className="sticky top-0 z-50 flex justify-between items-center px-6 py-4 bg-white border-b border-neutral-200">
             <div className="flex items-center gap-2">
@@ -67,6 +68,9 @@ export default function RootLayout({
                   <Link href="/projects" className="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">
                     My Projects
                   </Link>
+                  <Link href="/examples/typewriter" className="text-sm font-medium text-slate-700 hover:text-blue-600 transition-colors">
+                    Examples
+                  </Link>
                 </nav>
                 <UserButton 
                   afterSignOutUrl="/"
@@ -97,7 +101,10 @@ export default function RootLayout({
                   Palanca
                 </p>
               </div>
-              <div className="mt-6 md:mt-0">
+              <div className="mt-8 md:mt-0 flex flex-col md:flex-row items-center gap-4 md:gap-8">
+                <Link href="/examples/typewriter" className="text-xs font-medium text-slate-600 hover:text-blue-600 transition-colors">
+                  Typewriter Demo
+                </Link>
                 <p className="text-center text-xs leading-5 text-slate-500">
                   &copy; {new Date().getFullYear()} Palanca. All rights reserved.
                 </p>
